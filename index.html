@@ -695,7 +695,7 @@
       <div class="photo-frame">
         <div class="photo-inner">
           <div class="photo-icon">◈</div>
-          <p class="photo-label"><img src="./portifolioImage.jpeg" width="100%" height="100%" alt="Your Photo"></p>
+          <p class="photo-label"><img src="./portifolioImage.jpeg" width="100%" height="100%" alt=""></p>
         </div>
       </div>
       <div class="hero-stats">
@@ -901,10 +901,10 @@
           <li>Embedded Systems — Raspberry Pi</li>
           <li>Currently working at a Software Company, Samsun</li>
         </ul>
-        <a href="Burak_Can_Koca_CV.pdf" download="Burak_Can_Koca_CV.pdf" class="cv-download-btn">
+        <button onclick="downloadCV()" class="cv-download-btn">
           <span>Download CV</span>
           <span class="btn-arrow">↓</span>
-        </a>
+        </button>
       </div>
     </div>
   </section>
@@ -938,6 +938,29 @@
   </footer>
 
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // CV Download
+    function downloadCV() {
+      fetch('Burak_Can_Koca_CV.pdf')
+        .then(res => {
+          if (!res.ok) throw new Error('File not found');
+          return res.blob();
+        })
+        .then(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'Burak_Can_Koca_CV.pdf';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        })
+        .catch(() => {
+          // Fallback: open in new tab
+          window.open('Burak_Can_Koca_CV.pdf', '_blank');
+        });
+    }
+
     // Custom cursor
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');

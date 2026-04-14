@@ -695,7 +695,7 @@
       <div class="photo-frame">
         <div class="photo-inner">
           <div class="photo-icon">◈</div>
-          <p class="photo-label"><img src="./portifolioImage.jpeg" width="100%" height="100%" alt=""></p>
+          <p class="photo-label"><img src="./portifolioImage.jpeg" alt="Your Photo" width="100%" height="100%"></p>
         </div>
       </div>
       <div class="hero-stats">
@@ -940,14 +940,22 @@
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // CV Download
     function downloadCV() {
-      const url = 'https://raw.githubusercontent.com/Burakcankoca/burakcankoca.github.io/main/Burak_Can_Koca_CV.pdf';
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'Burak_Can_Koca_CV.pdf';
-      a.target = '_blank';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      const rawUrl = 'https://raw.githubusercontent.com/Burakcankoca/burakcankoca.github.io/main/Burak_Can_Koca_CV.pdf';
+      fetch(rawUrl)
+        .then(res => res.blob())
+        .then(blob => {
+          const blobUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = 'Burak_Can_Koca_CV.pdf';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+        })
+        .catch(() => {
+          window.open(rawUrl, '_blank');
+        });
     }
 
     // Custom cursor
